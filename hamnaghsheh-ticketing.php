@@ -44,6 +44,11 @@ register_activation_hook(__FILE__, 'activate_hamnaghsheh_ticketing');
 register_deactivation_hook(__FILE__, 'deactivate_hamnaghsheh_ticketing');
 
 /**
+ * Helper functions.
+ */
+require HAMNAGHSHEH_TICKETING_PLUGIN_DIR . 'includes/helpers.php';
+
+/**
  * The core plugin class.
  */
 require HAMNAGHSHEH_TICKETING_PLUGIN_DIR . 'includes/class-hamnaghsheh-ticketing.php';

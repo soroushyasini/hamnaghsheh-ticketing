@@ -480,4 +480,37 @@ class Hamnaghsheh_Tickets {
         
         return isset($classes[$status]) ? $classes[$status] : 'bg-gray-500 text-white';
     }
+
+    /**
+     * Render ticketing button shortcode
+     * 
+     * Shortcode: [hamnaghsheh_tickets_button]
+     */
+    public function render_tickets_button($atts) {
+        $atts = shortcode_atts([
+            'text' => 'تیکت‌ها',
+            'show_count' => 'yes',
+            'class' => 'hamnaghsheh-tickets-button'
+        ], $atts);
+        
+        $url = hamnaghsheh_ticketing_url();
+        $text = esc_html($atts['text']);
+        $class = esc_attr($atts['class']);
+        
+        $badge_html = '';
+        if ($atts['show_count'] === 'yes' && is_user_logged_in()) {
+            $count = hamnaghsheh_get_user_open_tickets_count();
+            if ($count > 0) {
+                $badge_html = ' <span class="badge">' . $count . '</span>';
+            }
+        }
+        
+        return sprintf(
+            '<a href="%s" class="%s">%s%s</a>',
+            esc_url($url),
+            $class,
+            $text,
+            $badge_html
+        );
+    }
 }

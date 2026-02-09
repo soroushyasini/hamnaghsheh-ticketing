@@ -71,6 +71,7 @@ class Hamnaghsheh_Ticketing {
         add_action('wp_enqueue_scripts', [$tickets, 'enqueue_assets']);
         add_shortcode('hamnaghsheh_tickets', [$tickets, 'render_tickets_page']);
         add_shortcode('hamnaghsheh_ticket_detail', [$tickets, 'render_ticket_detail']);
+        add_shortcode('hamnaghsheh_tickets_button', [$tickets, 'render_tickets_button']);
         
         // Frontend AJAX handlers
         add_action('wp_ajax_hamnaghsheh_create_ticket', [$tickets, 'ajax_create_ticket']);
