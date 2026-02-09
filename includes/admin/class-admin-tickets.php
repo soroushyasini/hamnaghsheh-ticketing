@@ -264,7 +264,7 @@ class Hamnaghsheh_Admin_Tickets {
         );
         
         // Send email notification to user
-        Hamnaghsheh_Email_Notifications::send_admin_reply_notification($ticket_id, $message);
+        Hamnaghsheh_Ticket_Email_Notifications::send_admin_reply_notification($ticket_id, $message);
         
         wp_send_json_success(['message' => 'پاسخ شما ثبت شد.']);
     }
@@ -291,7 +291,7 @@ class Hamnaghsheh_Admin_Tickets {
         
         // If status is resolved, send notification
         if ($status === 'resolved') {
-            Hamnaghsheh_Email_Notifications::send_resolved_notification($ticket_id);
+            Hamnaghsheh_Ticket_Email_Notifications::send_resolved_notification($ticket_id);
         }
         
         $wpdb->update(

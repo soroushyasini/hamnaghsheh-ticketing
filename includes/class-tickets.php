@@ -232,7 +232,7 @@ class Hamnaghsheh_Tickets {
         );
         
         // Send email notification to admins
-        Hamnaghsheh_Email_Notifications::send_new_ticket_notification($ticket_id);
+        Hamnaghsheh_Ticket_Email_Notifications::send_new_ticket_notification($ticket_id);
         
         wp_send_json_success([
             'message' => 'تیکت با موفقیت ایجاد شد.',
@@ -318,7 +318,7 @@ class Hamnaghsheh_Tickets {
         }
         
         // Send email notification to admins
-        Hamnaghsheh_Email_Notifications::send_user_reply_notification($ticket_id, $message);
+        Hamnaghsheh_Ticket_Email_Notifications::send_user_reply_notification($ticket_id, $message);
         
         wp_send_json_success(['message' => 'پاسخ شما ثبت شد.']);
     }
