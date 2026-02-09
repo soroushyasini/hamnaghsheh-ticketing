@@ -12,6 +12,13 @@ if (!defined('WPINC')) {
 }
 
 /**
+ * Define plugin constants
+ */
+if (!defined('HAMNAGHSHEH_TICKETING_LOGIN_URL')) {
+    define('HAMNAGHSHEH_TICKETING_LOGIN_URL', site_url('/auth/'));
+}
+
+/**
  * Smart login redirect for ticketing system
  * 
  * Use this function in your theme's header button
@@ -26,7 +33,8 @@ function hamnaghsheh_ticketing_url() {
     } else {
         // User not logged in, redirect to login with return URL
         $redirect_url = urlencode(site_url('/tickets/'));
-        return site_url('/auth/?redirect_to=' . $redirect_url);
+        $login_url = apply_filters('hamnaghsheh_ticketing_login_url', HAMNAGHSHEH_TICKETING_LOGIN_URL);
+        return $login_url . '?redirect_to=' . $redirect_url;
     }
 }
 
@@ -42,7 +50,8 @@ function get_hamnaghsheh_ticketing_url($force_login = false) {
     }
     
     $redirect_url = urlencode(site_url('/tickets/'));
-    return site_url('/auth/?redirect_to=' . $redirect_url);
+    $login_url = apply_filters('hamnaghsheh_ticketing_login_url', HAMNAGHSHEH_TICKETING_LOGIN_URL);
+    return $login_url . '?redirect_to=' . $redirect_url;
 }
 
 /**
@@ -51,11 +60,13 @@ function get_hamnaghsheh_ticketing_url($force_login = false) {
  * Use this function to programmatically redirect to ticketing
  */
 function hamnaghsheh_redirect_to_ticketing() {
+    $login_url = apply_filters('hamnaghsheh_ticketing_login_url', HAMNAGHSHEH_TICKETING_LOGIN_URL);
+    
     if (is_user_logged_in()) {
         wp_redirect(site_url('/tickets/'));
     } else {
         $redirect_url = urlencode(site_url('/tickets/'));
-        wp_redirect(site_url('/auth/?redirect_to=' . $redirect_url));
+        wp_redirect($login_url . '?redirect_to=' . $redirect_url);
     }
     exit;
 }

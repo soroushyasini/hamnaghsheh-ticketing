@@ -11,7 +11,14 @@ class Hamnaghsheh_Ticketing_Jalali {
     /**
      * Convert Gregorian date to Persian/Jalali date
      *
-     * @param string $format Date format (e.g., 'Y-m-d')
+     * @param string $format Date format. Supported formats:
+     *                       - Y: 4-digit year
+     *                       - y: 2-digit year
+     *                       - m: Month with leading zero (01-12)
+     *                       - n: Month without leading zero (1-12)
+     *                       - d: Day with leading zero (01-31)
+     *                       - j: Day without leading zero (1-31)
+     *                       - H, i, s: Time components (passed through from PHP date())
      * @param int|null $timestamp Unix timestamp (null for current time)
      * @return string Formatted Persian date
      */
@@ -35,6 +42,14 @@ class Hamnaghsheh_Ticketing_Jalali {
         $result = $format;
         foreach ($replacements as $key => $value) {
             $result = str_replace($key, $value, $result);
+        }
+        
+        // Handle time components using PHP's date function
+        // Replace any remaining format characters with values from PHP date()
+        $time_format = preg_replace('/[Yymndj]/', '', $format);
+        if (!empty($time_format)) {
+            $time_parts = date($time_format, $timestamp);
+            $result = preg_replace('/[His:\/\s-]+/', $time_parts, $result, 1);
         }
         
         return $result;

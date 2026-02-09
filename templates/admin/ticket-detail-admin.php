@@ -280,7 +280,15 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         
         const formData = new FormData(this);
-        const message = tinymce.get('admin_reply_message').getContent();
+        
+        // Check if TinyMCE editor exists
+        const editor = tinymce.get('admin_reply_message');
+        if (!editor) {
+            alert('ویرایشگر بارگذاری نشده است. لطفا صفحه را رفرش کنید.');
+            return;
+        }
+        
+        const message = editor.getContent();
         
         if (!message.trim()) {
             alert('لطفا پیام خود را وارد کنید.');

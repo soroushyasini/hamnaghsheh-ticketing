@@ -55,8 +55,8 @@
             }
         });
 
-        // Auto-resize textarea
-        $('textarea').on('input', function() {
+        // Auto-resize textarea (only within ticketing wrapper)
+        $('.hamnaghsheh-tickets-wrapper textarea, .hamnaghsheh-ticket-detail-wrapper textarea').on('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });

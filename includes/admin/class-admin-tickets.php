@@ -420,7 +420,7 @@ class Hamnaghsheh_Admin_Tickets {
                         continue;
                     }
                     
-                    $filename = time() . '_' . sanitize_file_name($files['name'][$i]);
+                    $filename = wp_generate_uuid4() . '_' . sanitize_file_name($files['name'][$i]);
                     $filepath = $ticket_dir . '/' . $filename;
                     
                     if (move_uploaded_file($files['tmp_name'][$i], $filepath)) {

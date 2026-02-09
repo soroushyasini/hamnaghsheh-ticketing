@@ -149,7 +149,7 @@
             window.location.href = '?page=hamnaghsheh-tickets';
         });
 
-        // Real-time search
+        // Real-time search (debounced)
         let searchTimer;
         $('input[name="search"]').on('input', function() {
             clearTimeout(searchTimer);
@@ -158,7 +158,7 @@
             if (searchTerm.length >= 3 || searchTerm.length === 0) {
                 searchTimer = setTimeout(function() {
                     $('form').submit();
-                }, 500);
+                }, 1500); // Increased debounce to 1.5 seconds
             }
         });
 

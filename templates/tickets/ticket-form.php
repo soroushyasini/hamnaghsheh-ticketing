@@ -1,6 +1,10 @@
 <?php
 /**
  * Template for creating a new ticket
+ * 
+ * Note: This template is designed to be included within ticket-list.php
+ * and relies on the showCreateTicketForm() function defined there.
+ * If using independently, ensure JavaScript function is available.
  *
  * @package    Hamnaghsheh_Ticketing
  * @subpackage Hamnaghsheh_Ticketing/templates/tickets

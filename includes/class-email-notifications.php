@@ -184,9 +184,12 @@ class Hamnaghsheh_Email_Notifications {
      * Get email headers for RTL support
      */
     private static function get_headers() {
+        $from_email = apply_filters('hamnaghsheh_ticketing_from_email', get_option('admin_email'));
+        $from_name = apply_filters('hamnaghsheh_ticketing_from_name', get_bloginfo('name'));
+        
         return [
             'Content-Type: text/plain; charset=UTF-8',
-            'From: Hamnaghsheh <noreply@hamnaghsheh.com>'
+            'From: ' . $from_name . ' <' . $from_email . '>'
         ];
     }
 
