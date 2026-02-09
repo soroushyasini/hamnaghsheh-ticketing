@@ -1,0 +1,23 @@
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/backup-db/
+
+# Plugin specific
+/vendor/
+/node_modules/
+.DS_Store
+*.log
+.htaccess
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+/tmp/
+*.tmp
