@@ -6,7 +6,7 @@
  * @subpackage Hamnaghsheh_Ticketing/includes
  */
 
-class Hamnaghsheh_Email_Notifications {
+class Hamnaghsheh_Ticket_Email_Notifications {
 
     /**
      * Send email notification when user creates a ticket
