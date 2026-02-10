@@ -74,7 +74,7 @@ $is_closed = $ticket->status === 'closed';
             <div class="message-bubble <?php echo $is_admin ? 'admin-message' : 'user-message'; ?>">
                 <div class="message-header">
                     <span class="message-author">
-                        <?php echo $is_admin ? '👨‍💼 پشتیبانی همنقشه' : '👤 شما'; ?>
+                        <?php echo $is_admin ? '👨‍💼 پشتیبانی هم‌نقشه' : '👤 شما'; ?>
                     </span>
                     <span class="message-time">
                         <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($reply->created_at))); ?>
