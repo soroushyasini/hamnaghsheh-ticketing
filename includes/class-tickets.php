@@ -467,6 +467,18 @@ class Hamnaghsheh_Tickets {
     }
 
     /**
+     * Get priorities
+     */
+    public static function get_priorities() {
+        return [
+            'low' => 'کم',
+            'normal' => 'عادی',
+            'high' => 'بالا',
+            'urgent' => 'فوری'
+        ];
+    }
+
+    /**
      * Get status badge class
      */
     public static function get_status_badge_class($status) {
