@@ -455,6 +455,12 @@
     color: #ffffff;
 }
 
+/* Ensure all child elements in admin messages have white text */
+.admin-message .message-content *,
+.reply-item.admin-reply .reply-message * {
+    color: #ffffff !important;
+}
+
 .message-attachments,
 .reply-attachments {
     margin-top: 15px;

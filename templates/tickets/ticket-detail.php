@@ -49,11 +49,11 @@ $is_closed = $ticket->status === 'closed';
         <div class="ticket-info-grid">
             <div class="info-item">
                 <label>تاریخ ایجاد</label>
-                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->created_at))); ?></span>
+                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->created_at))); ?></span>
             </div>
             <div class="info-item">
                 <label>آخرین بروزرسانی</label>
-                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->updated_at))); ?></span>
+                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->updated_at))); ?></span>
             </div>
             <?php if (isset($ticket->project_id) && $ticket->project_id): ?>
             <div class="info-item">
@@ -77,7 +77,7 @@ $is_closed = $ticket->status === 'closed';
                         <?php echo $is_admin ? '👨‍💼 پشتیبانی هم‌نقشه' : '👤 شما'; ?>
                     </span>
                     <span class="message-time">
-                        <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($reply->created_at))); ?>
+                        <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($reply->created_at))); ?>
                     </span>
                 </div>
                 <div class="message-content">

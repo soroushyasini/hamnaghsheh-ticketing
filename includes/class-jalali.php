@@ -44,12 +44,16 @@ class Hamnaghsheh_Ticketing_Jalali {
             $result = str_replace($key, $value, $result);
         }
         
-        // Handle time components using PHP's date function
-        // Replace any remaining format characters with values from PHP date()
-        $time_format = preg_replace('/[Yymndj]/', '', $format);
-        if (!empty($time_format)) {
-            $time_parts = date($time_format, $timestamp);
-            $result = preg_replace('/[His:\/\s-]+/', $time_parts, $result, 1);
+        // Handle time components (H, i, s) using PHP's date function
+        // We need to replace each time format character individually
+        $time_replacements = [
+            'H' => date('H', $timestamp),
+            'i' => date('i', $timestamp),
+            's' => date('s', $timestamp),
+        ];
+        
+        foreach ($time_replacements as $key => $value) {
+            $result = str_replace($key, $value, $result);
         }
         
         return $result;

@@ -65,11 +65,11 @@ $priority_data = $priorities[$ticket->priority] ?? $priorities['normal'];
                         </tr>
                         <tr>
                             <th>تاریخ ایجاد:</th>
-                            <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->created_at))); ?></td>
+                            <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->created_at))); ?></td>
                         </tr>
                         <tr>
                             <th>آخرین به‌روزرسانی:</th>
-                            <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->updated_at))); ?></td>
+                            <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->updated_at))); ?></td>
                         </tr>
                         <?php if ($ticket->project_id): ?>
                         <tr>
@@ -107,7 +107,7 @@ $priority_data = $priorities[$ticket->priority] ?? $priorities['normal'];
                                     <?php endif; ?>
                                 </div>
                                 <small style="color: #666;">
-                                    <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($reply->created_at))); ?>
+                                    <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($reply->created_at))); ?>
                                 </small>
                             </div>
                             
@@ -181,7 +181,7 @@ $priority_data = $priorities[$ticket->priority] ?? $priorities['normal'];
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                                     <strong><?php echo esc_html($note->admin_name); ?></strong>
                                     <small style="color: #666;">
-                                        <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($note->created_at))); ?>
+                                        <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($note->created_at))); ?>
                                     </small>
                                 </div>
                                 <div><?php echo wp_kses_post($note->note); ?></div>
@@ -260,7 +260,7 @@ $priority_data = $priorities[$ticket->priority] ?? $priorities['normal'];
                     <?php else: ?>
                         <p style="text-align: center; color: #666;">
                             <strong>این تیکت بسته شده است</strong>
-                            <br><small>تاریخ بسته شدن: <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->closed_at))); ?></small>
+                            <br><small>تاریخ بسته شدن: <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->closed_at))); ?></small>
                         </p>
                     <?php endif; ?>
 
