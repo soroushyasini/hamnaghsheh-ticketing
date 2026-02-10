@@ -163,8 +163,8 @@ $priorities = Hamnaghsheh_Admin_Tickets::get_priorities();
                                 <?php echo esc_html($priority_data['label']); ?>
                             </span>
                         </td>
-                        <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->created_at))); ?></td>
-                        <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->updated_at))); ?></td>
+                        <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->created_at))); ?></td>
+                        <td><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d - H:i', strtotime($ticket->updated_at))); ?></td>
                         <td>
                             <a href="?page=hamnaghsheh-tickets&action=view&id=<?php echo esc_attr($ticket->id); ?>" 
                                class="button button-small">
