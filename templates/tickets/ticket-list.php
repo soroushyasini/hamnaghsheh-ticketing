@@ -28,8 +28,8 @@ $priorities = Hamnaghsheh_Tickets::get_priorities();
 
 <div class="hamnaghsheh-tickets-wrapper">
     <div class="tickets-header">
-        <h1>تیکتهای پشتیبانی</h1>
-        <p>مدیریت و پیگیری درخواستهای شما</p>
+        <h1>تیکت‌های پشتیبانی</h1>
+        <p>مدیریت و پیگیری درخواست‌های شما</p>
     </div>
 
     <div class="filters-container">
