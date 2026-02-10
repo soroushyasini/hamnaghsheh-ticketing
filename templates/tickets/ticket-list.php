@@ -65,7 +65,7 @@ $priorities = Hamnaghsheh_Tickets::get_priorities();
     <?php else: ?>
         <div class="tickets-list">
             <?php foreach ($tickets as $ticket): ?>
-                <div class="ticket-card" onclick="location.href='?id=<?php echo esc_attr($ticket->id); ?>'">
+                <div class="ticket-card" onclick="location.href='?id=<?php echo esc_attr($ticket->id); ?>'" onkeypress="if(event.key==='Enter')location.href='?id=<?php echo esc_attr($ticket->id); ?>'" tabindex="0" role="button" aria-label="مشاهده تیکت <?php echo esc_attr($ticket->ticket_number); ?>">
                     <div class="ticket-card-header">
                         <span class="ticket-number">#<?php echo esc_html($ticket->ticket_number); ?></span>
                         <div class="ticket-badges">

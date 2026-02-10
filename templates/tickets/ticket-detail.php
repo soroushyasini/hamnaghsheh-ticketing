@@ -81,7 +81,7 @@ $is_closed = $ticket->status === 'closed';
                     </span>
                 </div>
                 <div class="message-content">
-                    <?php echo nl2br(esc_html($reply->message)); ?>
+                    <?php echo wp_kses_post(nl2br($reply->message)); ?>
                 </div>
                 <?php if (!empty($attachments)): ?>
                     <div class="message-attachments">

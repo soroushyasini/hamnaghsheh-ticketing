@@ -59,6 +59,11 @@
     box-shadow: 0 8px 30px rgba(9, 55, 91, 0.15);
 }
 
+.ticket-card:focus {
+    outline: 2px solid #09375b;
+    outline-offset: 2px;
+}
+
 .ticket-card-header {
     display: flex;
     justify-content: space-between;
