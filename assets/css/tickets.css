@@ -458,6 +458,7 @@
 }
 
 /* Admin messages: transparent content, white text */
+/* !important is used to ensure transparency overrides any inherited background styles */
 .admin-message .message-content,
 .reply-item.admin-reply .reply-message {
     background: transparent !important;
