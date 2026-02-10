@@ -457,13 +457,7 @@
 
 /* Ensure all child elements in admin messages have white text */
 .admin-message .message-content *,
-.admin-message .message-content p,
-.admin-message .message-content span,
-.admin-message .message-content div,
-.reply-item.admin-reply .reply-message *,
-.reply-item.admin-reply .reply-message p,
-.reply-item.admin-reply .reply-message span,
-.reply-item.admin-reply .reply-message div {
+.reply-item.admin-reply .reply-message * {
     color: #ffffff !important;
 }
 
