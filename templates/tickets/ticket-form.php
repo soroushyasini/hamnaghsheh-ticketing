@@ -18,28 +18,28 @@ if (!defined('WPINC')) {
 $categories = Hamnaghsheh_Tickets::get_categories();
 ?>
 
-<form id="create-ticket-form-element" method="post" enctype="multipart/form-data" style="max-width: 800px;">
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-title" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            عنوان تیکت <span style="color: red;">*</span>
+<form id="create-ticket-form-element" class="ticket-form" method="post" enctype="multipart/form-data">
+    <h2>فرم ثبت تیکت</h2>
+    
+    <div class="form-group">
+        <label for="ticket-title">
+            عنوان تیکت <span style="color: #dc2626;">*</span>
         </label>
         <input type="text" 
                id="ticket-title" 
                name="title" 
                required 
                maxlength="255"
-               style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
                placeholder="عنوان مشکل یا سوال خود را وارد کنید">
     </div>
 
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-category" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            دسته‌بندی <span style="color: red;">*</span>
+    <div class="form-group">
+        <label for="ticket-category">
+            دستهبندی <span style="color: #dc2626;">*</span>
         </label>
         <select id="ticket-category" 
                 name="category" 
-                required
-                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                required>
             <option value="">انتخاب کنید...</option>
             <?php foreach ($categories as $key => $label): ?>
                 <option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
@@ -47,67 +47,63 @@ $categories = Hamnaghsheh_Tickets::get_categories();
         </select>
     </div>
 
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-message" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            توضیحات <span style="color: red;">*</span>
+    <div class="form-group">
+        <label for="ticket-message">
+            توضیحات <span style="color: #dc2626;">*</span>
         </label>
         <textarea id="ticket-message" 
                   name="message" 
                   required 
                   rows="6"
-                  style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
                   placeholder="لطفا مشکل یا سوال خود را با جزئیات شرح دهید..."></textarea>
     </div>
 
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-project" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            پروژه مرتبط (اختیاری)
+    <div class="form-group">
+        <label for="ticket-project">
+            لینک به پروژه (اختیاری)
         </label>
         <select id="ticket-project" 
-                name="project_id"
-                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            <option value="">هیچکدام</option>
+                name="project_id">
+            <option value="">انتخاب نشده</option>
             <!-- Projects will be loaded via AJAX if needed -->
         </select>
     </div>
 
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-order" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            سفارش مرتبط (اختیاری)
+    <div class="form-group">
+        <label for="ticket-order">
+            لینک به سفارش (اختیاری)
         </label>
         <select id="ticket-order" 
-                name="order_id"
-                style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            <option value="">هیچکدام</option>
+                name="order_id">
+            <option value="">انتخاب نشده</option>
             <!-- Orders will be loaded via AJAX if needed -->
         </select>
     </div>
 
-    <div class="form-row" style="margin-bottom: 15px;">
-        <label for="ticket-attachments" style="display: block; margin-bottom: 5px; font-weight: bold;">
-            فایل‌های پیوست (اختیاری)
+    <div class="form-group">
+        <label for="ticket-attachments">
+            پیوست فایل (حداکثر 5 مگابایت)
         </label>
-        <input type="file" 
-               id="ticket-attachments" 
-               name="attachments[]" 
-               multiple
-               accept=".jpg,.jpeg,.png,.gif,.pdf,.txt,.doc,.docx"
-               style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-        <small style="display: block; margin-top: 5px; color: #666;">
-            حداکثر حجم هر فایل: 5MB | فرمت‌های مجاز: jpg, png, gif, pdf, txt, doc, docx
-        </small>
+        <div class="file-upload-area">
+            <input type="file" 
+                   id="ticket-attachments" 
+                   name="attachments[]" 
+                   multiple
+                   accept=".jpg,.jpeg,.png,.gif,.pdf,.txt,.doc,.docx">
+            <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 14px;">
+                فایلهای خود را بکشید یا کلیک کنید
+            </p>
+        </div>
     </div>
 
-    <div class="form-row">
-        <button type="submit" 
-                class="button button-primary" 
-                style="background: #09375B; border-color: #09375B; padding: 10px 30px;">
+    <div class="form-group" style="text-align: center;">
+        <button type="submit" class="btn-primary">
             ثبت تیکت
         </button>
         <button type="button" 
                 onclick="showCreateTicketForm()" 
-                class="button" 
-                style="margin-right: 10px; padding: 10px 30px;">
+                class="btn-secondary" 
+                style="margin-right: 10px;">
             انصراف
         </button>
     </div>
@@ -135,19 +131,19 @@ jQuery(document).ready(function($) {
             contentType: false,
             success: function(response) {
                 if (response.success) {
-                    $('#form-message').html('<div class="notice notice-success" style="padding: 10px; background: #d4edda; border: 1px solid #c3e6cb; color: #155724; border-radius: 4px;">' + response.data.message + '</div>');
+                    $('#form-message').html('<div class="notice notice-success">' + response.data.message + '</div>');
                     
                     // Redirect to ticket detail page
                     setTimeout(function() {
                         window.location.href = response.data.redirect_url;
                     }, 1000);
                 } else {
-                    $('#form-message').html('<div class="notice notice-error" style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 4px;">' + response.data.message + '</div>');
+                    $('#form-message').html('<div class="notice notice-error">' + response.data.message + '</div>');
                     submitBtn.prop('disabled', false).text('ثبت تیکت');
                 }
             },
             error: function() {
-                $('#form-message').html('<div class="notice notice-error" style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 4px;">' + hamnaghshehTickets.strings.error + '</div>');
+                $('#form-message').html('<div class="notice notice-error">' + hamnaghshehTickets.strings.error + '</div>');
                 submitBtn.prop('disabled', false).text('ثبت تیکت');
             }
         });

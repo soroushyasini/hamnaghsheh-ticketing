@@ -15,6 +15,7 @@ $tickets_instance = new Hamnaghsheh_Tickets();
 $replies = $tickets_instance->get_ticket_replies($ticket->id);
 $statuses = Hamnaghsheh_Tickets::get_statuses();
 $categories = Hamnaghsheh_Tickets::get_categories();
+$priorities = Hamnaghsheh_Tickets::get_priorities();
 
 $upload_dir = wp_upload_dir();
 $ticket_dir_url = $upload_dir['baseurl'] . '/hamnaghsheh/tickets/' . $ticket->id;
@@ -22,102 +23,87 @@ $ticket_dir_url = $upload_dir['baseurl'] . '/hamnaghsheh/tickets/' . $ticket->id
 $is_closed = $ticket->status === 'closed';
 ?>
 
-<div class="hamnaghsheh-ticket-detail-wrapper" dir="rtl">
+<div class="hamnaghsheh-ticket-detail-wrapper">
     <!-- Back Button -->
     <div style="margin-bottom: 20px;">
-        <a href="<?php echo esc_url(remove_query_arg('id')); ?>" class="button">← بازگشت به لیست تیکت‌ها</a>
+        <a href="<?php echo esc_url(remove_query_arg('id')); ?>" class="btn-secondary">← بازگشت به لیست تیکت‌ها</a>
     </div>
 
     <!-- Ticket Header -->
-    <div class="ticket-header" style="background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
-            <div>
-                <h2 style="margin: 0 0 10px 0;"><?php echo esc_html($ticket->title); ?></h2>
-                <p style="margin: 0; color: #666;">
-                    شماره تیکت: <strong><?php echo esc_html($ticket->ticket_number); ?></strong>
-                </p>
-            </div>
-            <div>
-                <span class="status-badge <?php echo esc_attr(Hamnaghsheh_Tickets::get_status_badge_class($ticket->status)); ?>" 
-                      style="padding: 6px 16px; border-radius: 16px; font-size: 14px; display: inline-block;">
-                    <?php echo esc_html($statuses[$ticket->status] ?? $ticket->status); ?>
+    <div class="ticket-detail-header">
+        <h1><?php echo esc_html($ticket->title); ?></h1>
+        
+        <div class="ticket-badges">
+            <span class="ticket-number">#<?php echo esc_html($ticket->ticket_number); ?></span>
+            <span class="status-badge status-<?php echo esc_attr($ticket->status); ?>">
+                <?php echo esc_html($statuses[$ticket->status] ?? $ticket->status); ?>
+            </span>
+            <span class="category-badge"><?php echo esc_html($categories[$ticket->category] ?? $ticket->category); ?></span>
+            <?php if (isset($ticket->priority) && $ticket->priority !== 'normal'): ?>
+                <span class="priority-badge priority-<?php echo esc_attr($ticket->priority); ?>">
+                    <?php echo esc_html($priorities[$ticket->priority] ?? $ticket->priority); ?>
                 </span>
-            </div>
+            <?php endif; ?>
         </div>
         
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-            <div>
-                <small style="color: #666;">دسته‌بندی:</small>
-                <p style="margin: 5px 0 0 0; font-weight: bold;">
-                    <?php echo esc_html($categories[$ticket->category] ?? $ticket->category); ?>
-                </p>
+        <div class="ticket-info-grid">
+            <div class="info-item">
+                <label>تاریخ ایجاد</label>
+                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->created_at))); ?></span>
             </div>
-            <div>
-                <small style="color: #666;">تاریخ ایجاد:</small>
-                <p style="margin: 5px 0 0 0; font-weight: bold;">
-                    <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->created_at))); ?>
-                </p>
+            <div class="info-item">
+                <label>آخرین بروزرسانی</label>
+                <span><?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->updated_at))); ?></span>
             </div>
-            <div>
-                <small style="color: #666;">آخرین به‌روزرسانی:</small>
-                <p style="margin: 5px 0 0 0; font-weight: bold;">
-                    <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($ticket->updated_at))); ?>
-                </p>
+            <?php if (isset($ticket->project_id) && $ticket->project_id): ?>
+            <div class="info-item">
+                <label>پروژه مرتبط</label>
+                <span><?php echo esc_html($ticket->project_id); ?></span>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
     <!-- Conversation Thread -->
-    <div class="ticket-conversation" style="margin-bottom: 30px;">
+    <div class="conversation-container">
         <?php foreach ($replies as $reply): 
             $reply_user = get_userdata($reply->user_id);
             $is_admin = (bool) $reply->is_admin_reply;
             $attachments = !empty($reply->attachments) ? json_decode($reply->attachments, true) : [];
         ?>
-            <div class="reply-item" style="background: <?php echo $is_admin ? '#f0f8ff' : 'white'; ?>; padding: 20px; margin-bottom: 15px; border-radius: 8px; border-right: 4px solid <?php echo $is_admin ? '#09375B' : '#FFCF00'; ?>; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <div class="reply-header" style="display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
-                    <div>
-                        <strong style="color: <?php echo $is_admin ? '#09375B' : '#333'; ?>;">
-                            <?php echo esc_html($reply_user ? $reply_user->display_name : 'کاربر'); ?>
-                            <?php if ($is_admin): ?>
-                                <span style="background: #09375B; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-right: 5px;">مدیر</span>
-                            <?php endif; ?>
-                        </strong>
-                    </div>
-                    <div style="color: #666; font-size: 14px;">
+            <div class="message-bubble <?php echo $is_admin ? 'admin-message' : 'user-message'; ?>">
+                <div class="message-header">
+                    <span class="message-author">
+                        <?php echo $is_admin ? '👨‍💼 پشتیبانی همنقشه' : '👤 شما'; ?>
+                    </span>
+                    <span class="message-time">
                         <?php echo esc_html(Hamnaghsheh_Ticketing_Jalali::jdate('Y/m/d H:i', strtotime($reply->created_at))); ?>
-                    </div>
+                    </span>
                 </div>
-                
-                <div class="reply-message" style="line-height: 1.6;">
-                    <?php echo wp_kses_post($reply->message); ?>
+                <div class="message-content">
+                    <?php echo nl2br(esc_html($reply->message)); ?>
                 </div>
-                
                 <?php if (!empty($attachments)): ?>
-                    <div class="reply-attachments" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                        <strong style="display: block; margin-bottom: 10px;">فایل‌های پیوست:</strong>
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <?php foreach ($attachments as $file): 
-                                $file_url = $ticket_dir_url . '/' . $file;
-                                $file_ext = pathinfo($file, PATHINFO_EXTENSION);
-                                $is_image = in_array(strtolower($file_ext), ['jpg', 'jpeg', 'png', 'gif']);
-                            ?>
-                                <?php if ($is_image): ?>
-                                    <a href="<?php echo esc_url($file_url); ?>" target="_blank">
-                                        <img src="<?php echo esc_url($file_url); ?>" 
-                                             alt="<?php echo esc_attr($file); ?>"
-                                             style="max-width: 150px; max-height: 150px; border: 1px solid #ddd; border-radius: 4px;">
-                                    </a>
-                                <?php else: ?>
-                                    <a href="<?php echo esc_url($file_url); ?>" 
-                                       download
-                                       class="attachment-file"
-                                       style="display: inline-block; padding: 8px 12px; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333;">
-                                        📎 <?php echo esc_html($file); ?>
-                                    </a>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
+                    <div class="message-attachments">
+                        <?php foreach ($attachments as $file): 
+                            $file_url = $ticket_dir_url . '/' . $file;
+                            $file_ext = pathinfo($file, PATHINFO_EXTENSION);
+                            $is_image = in_array(strtolower($file_ext), ['jpg', 'jpeg', 'png', 'gif']);
+                        ?>
+                            <?php if ($is_image): ?>
+                                <a href="<?php echo esc_url($file_url); ?>" target="_blank">
+                                    <img src="<?php echo esc_url($file_url); ?>" 
+                                         alt="<?php echo esc_attr($file); ?>"
+                                         class="attachment-image">
+                                </a>
+                            <?php else: ?>
+                                <a href="<?php echo esc_url($file_url); ?>" 
+                                   download
+                                   class="attachment-file">
+                                    📎 <?php echo esc_html($file); ?>
+                                </a>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -126,47 +112,34 @@ $is_closed = $ticket->status === 'closed';
 
     <!-- Reply Form -->
     <?php if ($is_closed): ?>
-        <div class="ticket-closed-notice" style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 8px; text-align: center;">
+        <div class="ticket-closed-notice">
             <strong>این تیکت بسته شده است و امکان پاسخ به آن وجود ندارد.</strong>
         </div>
     <?php else: ?>
-        <div class="reply-form-wrapper" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-            <h3 style="margin-top: 0;">ارسال پاسخ</h3>
+        <div class="reply-form-container">
+            <h3>ارسال پاسخ</h3>
             
             <form id="reply-form" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="ticket_id" value="<?php echo esc_attr($ticket->id); ?>">
                 
-                <div class="form-row" style="margin-bottom: 15px;">
-                    <label for="reply-message" style="display: block; margin-bottom: 5px; font-weight: bold;">
-                        پیام شما <span style="color: red;">*</span>
-                    </label>
+                <div class="form-group">
                     <textarea id="reply-message" 
                               name="message" 
                               required 
                               rows="5"
-                              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"
-                              placeholder="پاسخ خود را بنویسید..."></textarea>
+                              placeholder="پیام خود را بنویسید..."></textarea>
                 </div>
 
-                <div class="form-row" style="margin-bottom: 15px;">
-                    <label for="reply-attachments" style="display: block; margin-bottom: 5px; font-weight: bold;">
-                        فایل‌های پیوست (اختیاری)
-                    </label>
+                <div class="form-group">
                     <input type="file" 
                            id="reply-attachments" 
                            name="attachments[]" 
                            multiple
-                           accept=".jpg,.jpeg,.png,.gif,.pdf,.txt,.doc,.docx"
-                           style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                    <small style="display: block; margin-top: 5px; color: #666;">
-                        حداکثر حجم هر فایل: 5MB
-                    </small>
+                           accept=".jpg,.jpeg,.png,.gif,.pdf,.txt,.doc,.docx">
                 </div>
 
-                <div class="form-row">
-                    <button type="submit" 
-                            class="button button-primary" 
-                            style="background: #09375B; border-color: #09375B; padding: 10px 30px;">
+                <div style="text-align: center;">
+                    <button type="submit" class="btn-primary">
                         ارسال پاسخ
                     </button>
                 </div>
@@ -197,19 +170,19 @@ jQuery(document).ready(function($) {
             contentType: false,
             success: function(response) {
                 if (response.success) {
-                    $('#reply-message-box').html('<div class="notice notice-success" style="padding: 10px; background: #d4edda; border: 1px solid #c3e6cb; color: #155724; border-radius: 4px;">' + response.data.message + '</div>');
+                    $('#reply-message-box').html('<div class="notice notice-success">' + response.data.message + '</div>');
                     
                     // Reload page to show new reply
                     setTimeout(function() {
                         location.reload();
                     }, 1000);
                 } else {
-                    $('#reply-message-box').html('<div class="notice notice-error" style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 4px;">' + response.data.message + '</div>');
+                    $('#reply-message-box').html('<div class="notice notice-error">' + response.data.message + '</div>');
                     submitBtn.prop('disabled', false).text('ارسال پاسخ');
                 }
             },
             error: function() {
-                $('#reply-message-box').html('<div class="notice notice-error" style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 4px;">' + hamnaghshehTickets.strings.error + '</div>');
+                $('#reply-message-box').html('<div class="notice notice-error">' + hamnaghshehTickets.strings.error + '</div>');
                 submitBtn.prop('disabled', false).text('ارسال پاسخ');
             }
         });
